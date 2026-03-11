@@ -1,0 +1,60 @@
+  version: "3.8"
+
+  services:
+    backend:
+      build: ./backend
+      container_name: backend_app
+      ports:
+        - "5000:5000"
+      environment:
+        DB_HOST: db
+        DB_USER: root
+        DB_PASSWORD: root123
+        DB_NAME: mydb
+      depends_on:
+        - db      
+      networks:
+        - app_network
+    frontend:
+      build:
+        context: ./frontend
+        args:
+          REACT_APP_API_URL: http://backend:5000
+      container_name: react_app
+      ports:
+        - "3001:80"
+      depends_on:
+        - backend
+      networks:
+        - app_network
+        
+    db:
+      image: mysql:8
+      container_name: mysql_db
+      restart: always 
+      networks:
+        - app_network
+      environment:
+        MYSQL_ROOT_PASSWORD: root123
+        MYSQL_DATABASE: mydb 
+        TZ: America/New_York
+      command: --default-time-zone=America/New_York
+      volumes:
+        - db_data:/var/lib/mysql
+    adminer:
+      image: adminer
+      container_name: adminer_php
+      restart: always
+      ports:
+        - "8012:8080"
+      depends_on:
+        - db
+      networks:
+        - app_network
+
+  volumes:
+    db_data:
+
+  networks:
+    app_network:
+      driver: bridge
