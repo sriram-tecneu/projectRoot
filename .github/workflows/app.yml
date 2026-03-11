@@ -3,7 +3,7 @@ name: frontend-backend-pipeline
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   build:
@@ -41,5 +41,25 @@ jobs:
 
       - name: Push frontend Image
         run: docker push ghcr.io/sriram-tecneu/project-frontend:latest
+      
       - name: push backend Image
         run: docker push ghcr.io/sriram-tecneu/project-backend:latest
+      
+      - name: Deploy on EC2
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            docker pull ghcr.io/${{ github.repository }}-backend:latest
+            docker pull ghcr.io/${{ github.repository }}-frontend:latest
+
+            docker stop backend || true
+            docker rm backend || true
+
+            docker stop frontend || true
+            docker rm frontend || true
+
+            docker run -d -p 5000:5000 --name backend ghcr.io/${{ github.repository }}-backend:latest
+            docker run -d -p 3001:80 --name frontend ghcr.io/${{ github.repository }}-frontend:latest
