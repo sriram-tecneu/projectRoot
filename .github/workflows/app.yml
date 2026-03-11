@@ -19,7 +19,8 @@ jobs:
           echo "MYSQL_DBNAME=${{ secrets.MYSQL_DBNAME }}" >> .env
           echo "MYSQL_USER=${{ secrets.MYSQL_USER }}" >> .env
           echo "MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> .env
-
+      - name: check the files
+        run: ls
       - name: Start containers with Docker Compose
         run: docker compose up -d --build
 
