@@ -39,5 +39,6 @@ jobs:
       - name: Build services
         run: docker compose build
 
-      - name: Push image
-        run: docker push ghcr.io/${{ github.repository }}:latest
+      - name: Push images
+        run: docker push ghcr.io/sriram-tecneu/project-frontend:latest
+        run: docker push ghcr.io/sriram-tecneu/project-backend:latest
