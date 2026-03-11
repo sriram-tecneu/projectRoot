@@ -17,7 +17,7 @@
         - app_network
     frontend:
       build:
-        context: ./frontend/frontend
+        context: ./frontend
         args:
           REACT_APP_API_URL: http://backend:5000
       container_name: react_app
