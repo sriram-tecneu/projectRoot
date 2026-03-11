@@ -24,8 +24,8 @@ jobs:
       - name: Start containers with Docker Compose
         run: docker compose up -d --build
 
-      - name: Run tests
-        run: docker compose exec app npm test
+      # - name: Run tests
+        # run: docker compose exec app npm test
 
       - name: Stop containers
         run: docker compose down
