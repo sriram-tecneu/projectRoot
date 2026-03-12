@@ -5,15 +5,15 @@ import axios from "axios";
 function App() {
   const [message, setMessage] = useState("");
   const [data, setData] = useState([]);
-  const API = process.env.REACT_APP_API_URL;
+  // const API = process.env.REACT_APP_API_URL;
   // const API="http://localhost:5000"
-  console.log(API,"apiisddss=================s===================")
+  // console.log(API,"apiisddss=================s===================")
   useEffect(() => {
-    axios.get(`${API}/api/message`)
+    axios.get(`/api/message`)
       .then(res => setMessage(res.data.message))
       .catch(err => console.error(err));
 
-    axios.get(`${API}/api/mysq`)
+    axios.get(`/api/mysq`)
       .then(res => setData(res.data))
       .catch(err => console.error(err));
   }, []);
