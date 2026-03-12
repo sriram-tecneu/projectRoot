@@ -50,7 +50,7 @@ function App() {
         />
         <input
           type="email"
-          placeholder="Email"
+          placeholder="Emails"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
