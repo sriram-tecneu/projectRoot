@@ -34,7 +34,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.TOKEN_FOR_GR }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build services
         run: docker compose build

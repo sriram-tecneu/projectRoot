@@ -8,6 +8,9 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
 
     steps:
       - name: Checkout code
@@ -19,7 +22,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.TOKEN_FOR_GR }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       # Build backend image
       - name: Build backend image
@@ -47,6 +50,6 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd projectroot
+            docker compose down
             git pull
-            docker compose pull
             docker compose up -d
